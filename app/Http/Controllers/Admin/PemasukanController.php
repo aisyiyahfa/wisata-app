@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pemasukan;
 use Barryvdh\DomPDF\Facade as PDF;
+
 use Illuminate\Http\Request;
 
 class PemasukanController extends Controller
@@ -20,6 +21,18 @@ class PemasukanController extends Controller
             'pemasukan' => $pemasukan
         ]);
     }
+
+    public function pdf()  
+    {  
+        $pemasukan = Pemasukan::all();
+        return view('pages.keuangan.pemasukan.pdf',[
+            'pemasukan' => $pemasukan
+        ]);
+
+        
+     }
+    
+
 
     /**
      * Show the form for creating a new resource.
@@ -82,12 +95,7 @@ class PemasukanController extends Controller
         return redirect()->route('pemasukan.index')->with('succcess', "Data Berhasil Di Hapus!!");
     }
       
-    public function generatePDF()  
-    {  
-        $pemasukan = Pemasukan::all(); // Ambil semua data pemasukan  
-        dd($pemasukan); // Debugging  
-        $pdf = PDF::loadView('pemasukan.pdf', compact('pemasukan'));  
-        return $pdf->download('data_pemasukan.pdf');  
-    }  
+    
+    
  
 }

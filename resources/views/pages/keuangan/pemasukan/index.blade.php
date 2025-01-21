@@ -14,7 +14,7 @@
                     <i class="fa fa-plus-circle" aria-hidden="true"></i> Add  
                 </button>  
                 <!-- Tombol Cetak PDF -->  
-                <a href="{{ route('pemasukan.pdf') }}" class="btn btn-md btn-outline-success px-4 shadow" style="border-radius: 25px; margin-left: 10px;">  
+                <a href="{{ route('pemasukan-pdf') }}" class="btn btn-md btn-outline-success px-4 shadow" style="border-radius: 25px; margin-left: 10px;">  
                     <i class="fa fa-file-pdf" aria-hidden="true"></i> Cetak PDF  
                 </a>  
             </div>              

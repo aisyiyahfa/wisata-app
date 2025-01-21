@@ -43,10 +43,10 @@ Dashboard
             <div class="small-box bg-primary">
                 <div class="inner">
                     <h3>150</h3>
-                    <p>Surat Keluar</p>
+                    <p>Jumlah Pengunjung</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-envelope-open" aria-hidden="true"></i>
+                    <i class="fa fa-users" aria-hidden="true"></i>
                 </div>
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -56,10 +56,10 @@ Dashboard
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>150</h3>
-                    <p>Surat Masuk</p>
+                    <p>Laporan Donasi</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <i class="fa-solid fa-money-bill-transfer  nav-icon"></i>
                 </div>
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>

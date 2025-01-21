@@ -11,6 +11,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DonationController;  
+use App\Http\Controllers\Auth\RegisterController;  
 
 /*
 |--------------------------------------------------------------------------
@@ -34,10 +36,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RolesController::class);
     Route::resource('jabatan', JabatanController::class);
     Route::resource('pemasukan', PemasukanController::class);
-    // Rute untuk mengunduh PDF  
-    Route::get('/pemasukan/pdf', [PemasukanController::class, 'generatePDF'])->name('pemasukan.pdf');     
+    // // Rute untuk mengunduh PDF  
+    Route::get('/pemasukan-pdf', [PemasukanController::class, 'pdf'])->name('pemasukan-pdf');  
     Route::resource('pengeluaran', PengeluaranController::class);
+    Route::get('/pengeluaran-pdf', [PengeluaranController::class, 'pdf'])->name('pengeluaran-pdf');  
     Route::resource('donasi', DonasiController::class);
+<<<<<<< Updated upstream
 
     Route::get('/superadmin', [AdminController::class, 'superAdmin'])->middleware('userAcces:1');
     Route::get('/ketua', [AdminController::class, 'ketua'])->middleware('userAcces:2');
@@ -45,6 +49,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bendahara2', [AdminController::class, 'bendahara2'])->middleware('userAcces:4');
     Route::get('/pengunjung', [AdminController::class, 'pengunjung'])->middleware('userAcces:5');
     Route::get('/logout', [LoginController::class, 'logout']);
+=======
+    Route::get('/donasi-pdf', [DonasiController::class, 'pdf'])->name('donasi-pdf');  
+>>>>>>> Stashed changes
 });
 
 Auth::routes();
+
+// Route::get('/pemasukan-pdf', function () {
+//     $pemasukan = App\Models\Pemasukan::all();
+//     return view('pages.keuangan.pemasukan.pdf', compact('pemasukan'));
+// })->name('pemasukan-pdf');
+
+  
+Route::resource('donation', DonationController::class);  
+
+

@@ -1,59 +1,57 @@
 @extends('layouts.template')
 
+@section('title')
+Role
+@endsection
+@section('sub-title')
+Role Data
+@endsection
+
+
 
 @section('content')
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-            <h4 class="text-center">Data Keuangan pengeluaran</h4>
+            <h4 class="text-center">Data Roles</h4>
         </div>
         <div class="card-body">
-            <div class="d-flex align-items-center">  
-                <!-- Tombol Add -->  
-                <button class="btn btn-md btn-outline-primary px-4 shadow" style="border-radius: 25px;" data-toggle="modal" data-target="#modal-default">  
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Add  
-                </button>  
-                <!-- Tombol Cetak PDF -->  
-                <a href="{{ route('pengeluaran-pdf') }}" class="btn btn-md btn-outline-success px-4 shadow" style="border-radius: 25px; margin-left: 10px;">  
-                    <i class="fa fa-file-pdf" aria-hidden="true"></i> Cetak PDF  
-                </a>  
-            </div>         
+            <button type="button" class="btn btn-outline-primary px-4 shadow" style="border-radius: 25px;" data-toggle="modal" data-target="#modal-default">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add
+            </button>
             <div class="table-responsive">
-                <table id="example1" class="table table-borderless table-striped">
+                <table id="example1" class="table table-borderless table-striped ">
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                            <th>Catatan</th>
+                            <th>Nama Role</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = 1; ?>
-                        @foreach ($pengeluaran as $item)
+                        <?php $no = 1 ?>
+                        @foreach ($roles as $item )
                         <tr class="text-center">
-                            <td>{{$no++}}</td>
-                            <td>{{$item->tanggal}}</td>
-                            <td>Rp. {{ number_format($item->nominal, 0,',',',')}}</td>
-                            <td>{{$item->catatan}}</td>
+                            <td>{{ $no++ }}</td>
+                            <td>{{$item->nama_roles}}</td>
                             <td>
                                 <div class="btn-group ">
                                     <button class="btn btn-sm btn-warning mr-1" data-toggle="modal" data-target="#edit{{$item->id}}"><i class="fa fa-pencil-alt" aria-hidden="true"></i></button>
-                                    <form action="{{route('pengeluaran.destroy', $item->id)}}" method="post">
+                                    <form action="{{route('roles.destroy', $item->id)}}" method="post">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true" data-confirm-delete="true"></i></button>
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </div>
                                 </form>
                             </td>
                         </tr>
 
+
                         <div class="modal fade" id="edit{{$item->id}}">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Edit pengeluaran</h4>
+                                        <h4 class="modal-title">Add Role</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -69,23 +67,12 @@
                                         </div>
                                         @endif
 
-                                        <form action="{{route('pengeluaran.update', $item->id)}}" method="Post">
+                                        <form action="{{route('roles.update', $item->id)}}" method="Post">
                                             @csrf
                                             @method('put')
                                             <div class="form-group">
-                                                <label for="tanggal">Tanggal</label>
-                                                <input type="date" class="form-control" value="{{$item->tanggal}}" name="tanggal" id="tanggal" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="nominal" class="mr-2">Nominal</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text" id="basic-addon1">Rp.</span>
-                                                    <input type="number" inputmode="numeric" value="{{$item->nominal}}" class="form-control" name="nominal" id="nominal" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="catatan">Catatan</label>
-                                                <textarea name="catatan" class="form-control" cols="30" rows="10">{{$item->catatan}}</textarea>
+                                                <label for="role">Role</label>
+                                                <input type="text" class="form-control" name="nama_roles" value="{{$item->nama_roles}}" id="role" placeholder="Nama Role" required>
                                             </div>
                                     </div>
                                     <div class="modal-footer justify-content-between">
@@ -99,7 +86,6 @@
                             <!-- /.modal-dialog -->
                         </div>
                         @endforeach
-
                     </tbody>
                 </table>
             </div>
@@ -111,7 +97,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add pengeluaran</h4>
+                <h4 class="modal-title">Add Role</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -127,24 +113,12 @@
                 </div>
                 @endif
 
-                <form action="{{route('pengeluaran.store')}}" method="Post">
+                <form action="{{route('roles.store')}}" method="Post">
                     @csrf
                     <div class="form-group">
-                        <label for="tanggal">Tanggal</label>
-                        <input type="date" class="form-control" name="tanggal" id="tanggal" required>
+                        <label for="role">Role</label>
+                        <input type="text" class="form-control" name="nama_roles" id="role" placeholder="Nama Role" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="nominal" class="mr-2">Nominal</label>
-                        <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">Rp.</span>
-                            <input type="number" inputmode="numeric" class="form-control" name="nominal" id="nominal" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="catatan">Catatan</label>
-                        <textarea name="catatan" id="" class="form-control" cols="30" rows="10"></textarea>
-                    </div>
-
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -156,4 +130,11 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+
+
+
+
+
+
 @endsection

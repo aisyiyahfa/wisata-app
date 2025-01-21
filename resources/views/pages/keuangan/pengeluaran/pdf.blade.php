@@ -68,7 +68,7 @@
                 </tr>  
             </thead>  
             <tbody>  
-                @foreach ($pemasukan as $item)  
+                @foreach ($pengeluaran as $item)  
                     <tr>  
                         <td>{{ $item->id }}</td>  
                         <td>{{ $item->tanggal }}</td>  
@@ -80,7 +80,7 @@
             <tfoot>  
                 <tr>  
                     <td colspan="2">Total</td>  
-                    <td colspan="2">{{ number_format($pemasukan->sum('nominal'), 2, ',', '.') }}</td>  
+                    <td colspan="2">{{ number_format($pengeluaran->sum('nominal'), 2, ',', '.') }}</td>  
                 </tr>  
             </tfoot>  
         </table>  

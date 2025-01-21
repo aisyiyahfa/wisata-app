@@ -23,6 +23,14 @@ class PengeluaranController extends Controller
         ]);
     }
 
+    public function pdf()  
+    {  
+        $pengeluaran = Pengeluaran::all();
+        return view('pages.keuangan.pengeluaran.pdf',[
+            'pengeluaran' => $pengeluaran
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

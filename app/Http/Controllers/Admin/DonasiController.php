@@ -18,6 +18,14 @@ class DonasiController extends Controller
         return view('pages.keuangan.Donasi.index', ['donasi' => $donasi]);
     }
 
+    public function pdf()  
+    {  
+        $donasi = Donasi::all();
+        return view('pages.keuangan.donasi.pdf',[
+            'donasi' => $donasi
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

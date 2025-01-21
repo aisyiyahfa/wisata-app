@@ -167,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('donasi.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
+                                    <a href="{{route('donation.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
                                         <i class="fa-solid fa-money-bill-transfer  nav-icon"></i>
                                         <p>Donasi</p>
                                     </a>

@@ -112,6 +112,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                         </li>
+                        @if(Auth::user()->role_id == 1)
                         <li class="nav-item {{ request()->is('roles*') || request()->is('user*') || request()->is('jabatan*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-boxes"></i>
@@ -141,7 +142,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
-                      <li class="nav-item {{ request()->is('pemasukan*') || request()->is('pengeluaran*') || request()->is('donasi*') ? 'menu-open' : '' }}">
+                        @endif
+
+                        @if(in_array(Auth::user()->role_id, [1, 2, 3, 4]))
+                        <li class="nav-item {{ request()->is('pemasukan*') || request()->is('pengeluaran*') || request()->is('donasi*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-money-bill"></i>
                                 <p>
@@ -170,7 +174,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
+                        @endif
 
+                        @if(in_array(Auth::user()->role_id, [1, 2]))
                         <li class="nav">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
@@ -180,7 +186,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                         </li>
-
+                        @endif
+                        @if(in_array(Auth::user()->role_id, [5]))
+                        <li class="nav">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    Donasi
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                        </li>
+                        @endif
                     </ul>  
                 </nav>
                 <!-- /.sidebar-menu -->

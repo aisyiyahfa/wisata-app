@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -32,9 +34,40 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    function logout()
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+        Auth::logout();
+        return redirect(' ');
+    }
+    function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ], [
+            'email.required' => 'Email harus diisi',
+            'password.required' => 'Password harus diisi',
+        ]);
+
+        $infoLogin = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+
+        if (Auth::attempt($infoLogin)) {
+            if (Auth::user()->role_id == 1) {
+                return redirect('superadmin');
+            } elseif (Auth::user()->role_id == 2) {
+                return redirect('ketua');
+            }elseif(Auth::user()->role_id == 3){
+                return redirect('bendahara1');
+            }elseif(Auth::user()->role_id == 4){
+                return redirect('bendahara2');
+            }else{
+                return redirect('pengunjung');
+            }
+        } else {
+            return redirect('')->withErrors('username dan password salah')->withInput();
+        }
     }
 }

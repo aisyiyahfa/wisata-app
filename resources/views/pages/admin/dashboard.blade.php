@@ -9,6 +9,7 @@ Dashboard
 
 
 @section('content')
+@if(in_array(Auth::user()->role_id, [1, 2,3,4]))
 <div class="col-md-12">
     <div class="row">
         <div class="col-lg-3 col-8">
@@ -81,6 +82,7 @@ Dashboard
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 

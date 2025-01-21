@@ -41,7 +41,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pengeluaran', PengeluaranController::class);
     Route::get('/pengeluaran-pdf', [PengeluaranController::class, 'pdf'])->name('pengeluaran-pdf');  
     Route::resource('donasi', DonasiController::class);
-<<<<<<< Updated upstream
 
     Route::get('/superadmin', [AdminController::class, 'superAdmin'])->middleware('userAcces:1');
     Route::get('/ketua', [AdminController::class, 'ketua'])->middleware('userAcces:2');
@@ -49,9 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bendahara2', [AdminController::class, 'bendahara2'])->middleware('userAcces:4');
     Route::get('/pengunjung', [AdminController::class, 'pengunjung'])->middleware('userAcces:5');
     Route::get('/logout', [LoginController::class, 'logout']);
-=======
     Route::get('/donasi-pdf', [DonasiController::class, 'pdf'])->name('donasi-pdf');  
->>>>>>> Stashed changes
 });
 
 Auth::routes();

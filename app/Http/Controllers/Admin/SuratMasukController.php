@@ -7,6 +7,7 @@ use App\Models\KategoriSurat;
 use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SuratMasukController extends Controller
 {
@@ -53,7 +54,8 @@ class SuratMasukController extends Controller
             'lampiran' => $lampiranPath ?? null,
         ]);
 
-        return redirect()->route('surat-masuk.index')->with('success', 'Surat berhasil ditambahkan.');
+        Alert::success('Success', 'Surat berhasil ditambahkan.');
+        return redirect()->route('surat-masuk.index');
     }
 
 
@@ -106,7 +108,8 @@ class SuratMasukController extends Controller
 
         $surat->update($data);
 
-        return redirect()->route('surat-masuk.index')->with('success', 'Surat berhasil diperbarui.');
+        Alert::success('Success', 'Surat berhasil diperbarui.');
+        return redirect()->route('surat-masuk.index');
     }
 
 
@@ -114,6 +117,8 @@ class SuratMasukController extends Controller
     {
         $surat = Surat::findOrFail($id);
         $surat->delete();
-        return redirect()->route('surat-masuk.index')->with('success', 'Surat berhasil dihapus.');
+
+        Alert::success('Success', 'Surat berhasil dihapus.');
+        return redirect()->route('surat-masuk.index');
     }
 }

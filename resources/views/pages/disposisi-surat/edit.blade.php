@@ -50,9 +50,9 @@
                                 <label for="sifat_status">Sifat Status</label>
                                 <select name="sifat_status" id="sifat_status" class="form-control" required>
                                     <option value="">Pilih Sifat</option>
-                                    <option value="Biasa" {{ $disposisi->sifat_status == 'Biasa' ? 'selected' : '' }}>Biasa</option>
-                                    <option value="Segera" {{ $disposisi->sifat_status == 'Segera' ? 'selected' : '' }}>Segera</option>
-                                    <option value="Rahasia" {{ $disposisi->sifat_status == 'Rahasia' ? 'selected' : '' }}>Rahasia</option>
+                                    <option value="Biasa" {{ $disposisi->sifat_status == 'biasa' ? 'selected' : '' }}>Biasa</option>
+                                    <option value="Segera" {{ $disposisi->sifat_status == 'segera' ? 'selected' : '' }}>Segera</option>
+                                    <option value="Rahasia" {{ $disposisi->sifat_status == 'rahasia' ? 'selected' : '' }}>Rahasia</option>
                                 </select>
                             </div>
                         </div>

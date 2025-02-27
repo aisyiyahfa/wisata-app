@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Disposisi;
 use App\Models\Surat;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DisposisiController extends Controller
 {
@@ -46,7 +47,8 @@ class DisposisiController extends Controller
             'catatan' => $request->keterangan
         ]);
 
-        return redirect()->route('disposisi.index', $request->surat_id)->with('success', 'Disposisi berhasil ditambahkan!');
+        Alert::success('Success', 'Disposisi  berhasil ditambahkan.');
+        return redirect()->route('disposisi.index', $request->surat_id);
     }
 
     public function update(Request $request, $id)
@@ -66,13 +68,15 @@ class DisposisiController extends Controller
             'catatan' => $request->keterangan,
         ]);
 
-        return redirect()->route('disposisi.index', $disposisi->surat_id)->with('success', 'Disposisi berhasil diperbarui!');
+        Alert::success('Success', 'Disposisi  berhasil diubah.');
+        return redirect()->route('disposisi.index', $disposisi->surat_id);
     }
     public function destroy($id)
     {
         $disposisi = Disposisi::findOrFail($id);
         $disposisi->delete();
 
-        return redirect()->route('disposisi.index', $disposisi->surat_id)->with('success', 'Disposisi berhasil dihapus.');
+        Alert::success('Success', 'Disposisi  berhasil dihapus.');
+        return redirect()->route('disposisi.index', $disposisi->surat_id);
     }
 }

@@ -26,7 +26,6 @@
                                 Disposisi Surat ({{ $item->disposisi->count() }})
                             </a>
 
-                            <!-- Dropdown Bootstrap 4 -->
                             <div class="dropdown">
                                 <button class="btn btn-light" type="button" id="dropdownMenuButton{{ $item->id }}"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

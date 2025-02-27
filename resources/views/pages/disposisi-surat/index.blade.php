@@ -21,7 +21,7 @@
                 <div class="card-header">
                     <div class="row d-flex justify-content-between align-items-center">
                         <div>
-                            <h5>{{ $item->sifat_status }}</h5>
+                            <h5 class="m-0 font-weight-bold text-capitalize">{{ $item->sifat_status }}</h5>
                             <span>{{ $item->penerima }} </span>
                         </div>
                         <div class="d-flex align-items-center">
@@ -29,7 +29,6 @@
                                 <p class="m-0">Tenggat Waktu</p>
                                 <span>{{ \Carbon\Carbon::parse($item->tenggat_waktu)->locale('id')->isoFormat('dddd, D MMMM Y') }}</span>
                             </div>
-                            <!-- Dropdown Bootstrap 4 -->
                             <div class="dropdown">
                                 <button class="btn btn-light" type="button" id="dropdownMenuButton{{ $item->id }}"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,7 +59,7 @@
                     <p class="card-text">{{ $item->isi_disposisi }}</p>
                     <div class="d-flex justify-content-between">
                         <div>
-                            <p class="text-muted">{{ $item->keterangan }}</p>
+                            <p class="text-muted">{{ $item->catatan }}</p>
                         </div>
                     </div>
                 </div>

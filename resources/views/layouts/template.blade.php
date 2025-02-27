@@ -171,9 +171,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
-                        <li class="nav-item {{ request()->is('pemasukan*') || request()->is('pengeluaran*') || request()->is('donasi*') ? 'menu-open' : '' }}">
+                        <li class="nav-item {{ request()->is('kategori-surat*') || request()->is('surat-masuk*') || request()->is('surat-keluar*') || request()->is('agenda*')  ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-money-bill"></i>
+                                <i class="nav-icon fa fa-file-invoice"></i>
                                 <p>
                                     Transaksi Surat
                                     <i class="right fas fa-angle-left"></i>

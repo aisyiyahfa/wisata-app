@@ -95,9 +95,9 @@
                         <tbody>
                             @foreach ($surat as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->nomor_agenda }}</td>
                                     <td>{{ $item->nomor_surat }}</td>
-                                    <td>{{ $item->tipe }}</td>
+                                    <td><span class="badge badge-pill py-2 px-3 text-capitalize badge-{{ $item->tipe == 'masuk' ? 'success' : 'danger' }}"> {{ $item->tipe  }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($item->tanggal_surat)->locale('id')->isoFormat('dddd, D MMMM Y') }}
                                     </td>
 

@@ -12,7 +12,7 @@ class SuratKeluarController extends Controller
 {
     public function index()
     {
-        $surat = Surat::where('tipe', 'keluar')->get();
+        $surat = Surat::where('tipe', 'keluar')->orderBy('created_at', 'desc')->get();
         return view('pages.surat-keluar.index', compact('surat'));
     }
 

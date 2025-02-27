@@ -29,7 +29,7 @@ class AgendaController extends Controller
             $surat->where('kategori_id', $request->kategori_id);
         }
 
-        $surat = $surat->get();
+        $surat = $surat->orderBy('created_at', 'desc')->get();
 
         if ($request->has('cetak') && $request->cetak == 'pdf') {
             $pdf = Pdf::loadView('pages.agenda.pdf', compact('surat'));

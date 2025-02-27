@@ -18,8 +18,9 @@
                                     <p class="m-0">Tanggal Surat</p>
                                     <span>{{ \Carbon\Carbon::parse($surat->tanggal_surat)->locale('id')->isoFormat('dddd, D MMMM Y') }}</span>
                                 </div>
-
-                                <!-- Dropdown Bootstrap 4 -->
+                                <a href="{{ route('disposisi.index', $surat->id) }}" class="btn btn-outline-primary px-4 shadow mx-2" style="border-radius: 25px;">
+                                    Disposisi Surat ({{ $surat->disposisi->count() }})
+                                </a>
                                 <div class="dropdown">
                                     <button class="btn btn-light" type="button" id="dropdownMenuButton{{ $surat->id }}"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,7 +50,7 @@
                     <div class="card-body">
                         <p class="card-text">{{ $surat->ringkasan }}</p>
                         <p class="text-muted">{{ $surat->keterangan }}</p>
-                        
+
                         <hr>
 
                         <table class="table">
@@ -68,11 +69,11 @@
                                 </tr>
                                 <tr>
                                     <th>Tanggal Surat</th>
-                                    <td>{{ \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($surat->tanggal_surat)->locale('id')->isoFormat('dddd, D MMMM Y')}}</td>
                                 </tr>
                                 <tr>
                                     <th>Tanggal Diterima</th>
-                                    <td>{{ \Carbon\Carbon::parse($surat->tanggal_diterima)->translatedFormat('d F Y') }}
+                                    <td>{{ \Carbon\Carbon::parse($surat->tanggal_diterima)->locale('id')->isoFormat('dddd, D MMMM Y')}}
                                     </td>
                                 </tr>
                                 <tr>

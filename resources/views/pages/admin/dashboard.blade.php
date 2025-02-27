@@ -22,9 +22,11 @@ Dashboard
                 <div class="icon">
                     <i class="fa fa-money-bill"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('pemasukan.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
+        @endif 
+        @if(in_array(Auth::user()->role_id, [1, 2,])) 
         <div class="col-lg-3 col-8">
             <!-- small box -->
             <div class="small-box bg-info">
@@ -35,7 +37,7 @@ Dashboard
                 <div class="icon">
                     <i class="fa fa-users" aria-hidden="true"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('user.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-8">
@@ -51,6 +53,8 @@ Dashboard
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
+        @endif
+        @if(in_array(Auth::user()->role_id, [1, 2,3,4]))
         <div class="col-lg-3 col-8">
             <!-- small box -->
             <div class="small-box bg-success">
@@ -61,7 +65,7 @@ Dashboard
                 <div class="icon">
                     <i class="fa-solid fa-money-bill-transfer  nav-icon"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('donation.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
@@ -76,15 +80,34 @@ Dashboard
                     <div class="chart">
                         <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>
+                    
                 </div>
-                <!-- /.card-body -->
+                </div>  
             </div>
         </div>
     </div>
 </div>
 @endif
-@endsection
 
+
+@if(in_array(Auth::user()->role_id, [5])) 
+
+    <div class="col-md-12">
+        <div class="card card-primary">  
+            <div class="card-header">  
+                <h4 class="text-center">Video Wisata Religi Sendang Bagusan & Makam K.H.R. Bagus Khasantuka</h4>  
+            </div>  
+            <div class="card-body">  
+                <div class="embed-responsive embed-responsive-16by9">  
+                    <a href="https://www.youtube.com/watch?v=MuoxbHtOGWI" target="_blank">  
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/MuoxbHtOGWI?autoplay=1&rel=0&modestbranding=1&enablejsapi=1" allowfullscreen></iframe>  
+                    </a>   
+        </div>
+        </div>  
+    </div>  
+</div>   
+@endif    
+@endsection
 
 @push('addon-script')
 <script>

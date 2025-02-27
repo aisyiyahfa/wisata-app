@@ -10,9 +10,11 @@
         <div class="card-body">
             <div class="d-flex align-items-center">  
                 <!-- Tombol Add -->  
+                @if(in_array(Auth::user()->role_id, [1,3,4]))
                 <button class="btn btn-md btn-outline-primary px-4 shadow" style="border-radius: 25px;" data-toggle="modal" data-target="#modal-default">  
                     <i class="fa fa-plus-circle" aria-hidden="true"></i> Add  
                 </button>  
+                @endif
                 <!-- Tombol Cetak PDF -->  
                 <a href="{{ route('pengeluaran-pdf') }}" class="btn btn-md btn-outline-success px-4 shadow" style="border-radius: 25px; margin-left: 10px;">  
                     <i class="fa fa-file-pdf" aria-hidden="true"></i> Cetak PDF  
@@ -26,7 +28,9 @@
                             <th>Tanggal</th>
                             <th>Nominal</th>
                             <th>Catatan</th>
+                            @if(in_array(Auth::user()->role_id, [1,3,4]))
                             <th>Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +42,7 @@
                             <td>Rp. {{ number_format($item->nominal, 0,',',',')}}</td>
                             <td>{{$item->catatan}}</td>
                             <td>
+                                @if(in_array(Auth::user()->role_id, [1,3,4]))
                                 <div class="btn-group ">
                                     <button class="btn btn-sm btn-warning mr-1" data-toggle="modal" data-target="#edit{{$item->id}}"><i class="fa fa-pencil-alt" aria-hidden="true"></i></button>
                                     <form action="{{route('pengeluaran.destroy', $item->id)}}" method="post">
@@ -45,6 +50,7 @@
                                         @method('delete')
                                         <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true" data-confirm-delete="true"></i></button>
                                 </div>
+                                @endif
                                 </form>
                             </td>
                         </tr>

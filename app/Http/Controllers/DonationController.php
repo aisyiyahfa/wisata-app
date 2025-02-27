@@ -40,12 +40,18 @@ class DonationController extends Controller
         $donation->description = $request->description;    
         
         // Menangani unggahan file untuk bukti transfer    
-        if ($request->hasFile('transfer_proof')) {    
-            $file = $request->file('transfer_proof');    
-            $fileName = time() . '_' . $file->getClientOriginalName();    
-            $filePath = $file->storeAs('uploads/transfer_proofs', $fileName, 'public');    
-            $donation->transfer_proof = $filePath; // Menyimpan path file    
-        }    
+        // Menangani unggahan file untuk bukti transfer  
+if ($request->hasFile('transfer_proof')) {  
+    $file = $request->file('transfer_proof');  
+    $fileName = time() . '_' . $file->getClientOriginalName();  
+      
+    // Simpan file di direktori yang benar  
+    $filePath = $file->storeAs('storage/app/public/uploads/transfer_proofs', $fileName); // Simpan di storage/app/public/uploads/transfer_proofs  
+  
+    // Simpan path file tanpa 'public/' untuk database  
+    $donation->transfer_proof = 'storage/app/public/uploads/transfer_proofs' . $fileName; // Simpan path relatif  
+}  
+
         
         // Menyimpan donasi ke database    
         $donation->save();    
@@ -64,22 +70,25 @@ class DonationController extends Controller
             'transfer_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',  
             'status' => 'required|string', // Ensure status is validated  
         ]);  
-   
-        $donation = Donation::findOrFail($id);  
-        $donation->fill($request->except('transfer_proof'));  
-   
-        if ($request->hasFile('transfer_proof')) {  
-            // Handle file upload and update logic here  
-            if ($donation->transfer_proof) {  
-                Storage::disk('public')->delete($donation->transfer_proof);  
-            }  
-   
-            $file = $request->file('transfer_proof');  
-            $fileName = time() . '_' . $file->getClientOriginalName();  
-            $filePath = $file->storeAs('uploads/transfer_proofs', $fileName, 'public');  
-            $donation->transfer_proof = $filePath;  
-        }  
-   
+        $donation = Donation::findOrFail($id);    
+        $donation->fill($request->except('transfer_proof'));    
+          
+        if ($request->hasFile('transfer_proof')) {    
+            // Hapus file lama jika ada  
+            if ($donation->transfer_proof) {    
+                // Hapus file dari storage  
+                Storage::disk('public')->delete($donation->transfer_proof);    
+            }    
+          
+            // Proses unggahan file baru  
+            $file = $request->file('transfer_proof');    
+            $fileName = time() . '_' . $file->getClientOriginalName();    
+            $filePath = $file->storeAs('storage/app/public/uploads/transfer_proofs', $fileName);  // Simpan di storage/app/public/uploads/transfer_proofs  
+          
+            // Simpan path relatif ke database  
+            $donation->transfer_proof = 'storage/app/public/uploads/transfer_proofs' . $fileName;    
+        }    
+          
         $donation->save();  
    
         return redirect()->route('donation.index')->with('success', 'Donasi berhasil diperbarui!');  

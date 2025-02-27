@@ -1,7 +1,8 @@
 @extends('layouts.template')      
   
-@section('content')      
-<div class="container">      
+@section('content') 
+@if(in_array(Auth::user()->role_id, [5]))     
+ <div class="container">      
     <div class="card">      
         <div class="card-header text-center">      
             <h4>TAMBAH DONASI</h4>      
@@ -42,12 +43,14 @@
             </form>      
         </div>      
     </div>    
-  
+    @endif
+    @if(in_array(Auth::user()->role_id, [1,2,3,4]))  
     <!-- Reporting Table -->      
-    <div class="card mt-4">      
-        <div class="card-header text-center">      
-            <h4>REPORT DONASI</h4>      
-        </div>      
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-center">Data Donasi</h4>
+            </div>
         <div class="card-body">      
             <div class="table-responsive">      
                 <table class="table table-bordered table-striped">      
@@ -72,20 +75,21 @@
                             <td>{{ $donation->date }}</td>      
                             <td>{{ $donation->description }}</td>      
                             <td>      
-                                @if($donation->transfer_proof)      
-                                    <a href="{{ asset('storage/uploads/transfer_proofs/' . $donation->transfer_proof) }}" target="_blank">Lihat Bukti</a>      
-                                @else      
-                                    Tidak Ada Bukti      
-                                @endif      
+                                @if($donation->transfer_proof)  
+    <a href="{{ asset($donation->transfer_proof) }}" target="_blank">Lihat Bukti</a>  
+@else  
+    <span>Tidak ada bukti transfer</span>  
+@endif    
                             </td>      
                             <td>{{ $donation->status }}</td>      
-                            <td>      
+                            <td>  
+                                
                                 <div class="btn-group">      
-                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal{{ $donation->id }}">Edit</button>      
+                                    <button class="btn btn-warning mr-1" data-toggle="modal" data-target="#editModal{{ $donation->id }}"><i class="fa fa-pencil-alt" aria-hidden="true"></i></button>      
                                     <form action="{{ route('donation.destroy', $donation->id) }}" method="POST" style="display:inline;">      
                                         @csrf      
                                         @method('DELETE')      
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>      
+                                        <button type="submit" class="btn btn-danger mr-1" onclick="return confirm('Apakah Anda yakin ingin menghapus?')"><i class="fa fa-trash" aria-hidden="true"></i></button>      
                                     </form>      
                                 </div>      
                             </td>      
@@ -147,5 +151,6 @@
             </div>      
         </div>      
     </div>      
-</div>    
+</div> 
+@endif   
 @endsection    

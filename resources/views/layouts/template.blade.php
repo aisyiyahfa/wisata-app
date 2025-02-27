@@ -176,9 +176,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @endif
 
-                        @if(in_array(Auth::user()->role_id, [1, 2]))
+                        @if(in_array(Auth::user()->role_id, [1,2]))
                         <li class="nav">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('donation.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
                                     Jumlah Pengunjung
@@ -189,7 +189,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         @endif
                         @if(in_array(Auth::user()->role_id, [5]))
                         <li class="nav">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('donation.index') }}" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
                                     Donasi

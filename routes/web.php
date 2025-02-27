@@ -13,7 +13,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DonationController;  
 use App\Http\Controllers\Auth\RegisterController;  
-
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\KategoriRekeningController;
+use App\Http\Controllers\Admin\TransaksiController;
+use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\SuratMasukController;
+use App\Http\Controllers\Admin\IncomingLetterController;
+use App\Http\Controllers\Admin\ReservasiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,10 +54,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bendahara2', [AdminController::class, 'bendahara2'])->middleware('userAcces:4');
     Route::get('/pengunjung', [AdminController::class, 'pengunjung'])->middleware('userAcces:5');
     Route::get('/logout', [LoginController::class, 'logout']);
-    Route::get('/donasi-pdf', [DonasiController::class, 'pdf'])->name('donasi-pdf');  
+    Route::get('/donasi-pdf', [DonasiController::class, 'pdf'])->name('donasi-pdf'); 
+    Route::resource('kategoris', KategoriController::class); 
+    
+Route::resource('kategori-rekening', KategoriRekeningController::class);
+Route::resource('transaksi', TransaksiController::class);
 });
-
+// Laporan - Menggunakan method POST untuk filter
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/laporan/filter', [LaporanController::class, 'filter'])->name('laporan.filter');
 Auth::routes();
+Route::resource('surat-masuk', SuratMasukController::class);
+Route::resource('incoming', IncomingLetterController::class);
 
 // Route::get('/pemasukan-pdf', function () {
 //     $pemasukan = App\Models\Pemasukan::all();
@@ -60,5 +74,7 @@ Auth::routes();
 
   
 Route::resource('donation', DonationController::class);  
+
+Route::resource('reservasi', ReservasiController::class);
 
 

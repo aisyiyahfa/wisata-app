@@ -171,6 +171,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
+                        <li class="nav-item {{ request()->is('pemasukan*') || request()->is('pengeluaran*') || request()->is('donasi*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-money-bill"></i>
+                                <p>
+                                    Transaksi Surat
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('kategori-surat.index')}}" class="nav-link  {{request()->is('kategori-surat*') ? 'active' : ''}}">
+                                        <i class="fa fa-tags nav-icon" aria-hidden="true"></i> <!-- Ikon kategori -->
+                                        <p>Kategori Surat</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('surat-masuk.index')}}" class="nav-link  {{request()->is('surat-masuk*') ? 'active' : ''}}">
+                                        <i class="fa fa-envelope-open-text nav-icon" aria-hidden="true"></i> <!-- Ikon surat masuk -->
+                                        <p>Surat Masuk</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('surat-keluar.index')}}" class="nav-link  {{request()->is('surat-keluar*') ? 'active' : ''}}">
+                                        <i class="fa fa-paper-plane nav-icon" aria-hidden="true"></i> <!-- Ikon surat keluar -->
+                                        <p>Surat Keluar</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('agenda.index')}}" class="nav-link  {{request()->is('agenda*') ? 'active' : ''}}">
+                                        <i class="fa fa-book nav-icon" aria-hidden="true"></i> <!-- Ikon buku agenda -->
+                                        <p>Buku Agenda</p>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+
                         <li class="nav">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>

@@ -7,6 +7,7 @@ use App\Models\KategoriSurat;
 use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SuratKeluarController extends Controller
@@ -26,7 +27,12 @@ class SuratKeluarController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nomor_surat' => 'required|unique:surat',
+            'nomor_surat' => [
+                'required',
+                Rule::unique('surat')->where(function ($query) use ($request) {
+                    return $query->where('tipe', 'keluar');
+                })
+            ],
             'penerima' => 'required',
             'nomor_agenda' => 'nullable',
             'tanggal_surat' => 'required|date',
@@ -76,7 +82,12 @@ class SuratKeluarController extends Controller
         $surat = Surat::find($id);
 
         $request->validate([
-            'nomor_surat' => 'required',
+            'nomor_surat' => [
+                'required',
+                Rule::unique('surat')->where(function ($query) use ($request) {
+                    return $query->where('tipe', 'keluar');
+                })->ignore($surat->id),
+            ],
             'penerima' => 'required',
             'nomor_agenda' => 'nullable',
             'tanggal_surat' => 'required|date',

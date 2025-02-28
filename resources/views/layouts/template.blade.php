@@ -155,20 +155,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('pemasukan.index')}}" class="nav-link  {{request()->is('pemasukan*') ? 'active' : ''}}">
-                                        <i class="fa fa-arrow-circle-right nav-icon" aria-hidden="true"></i>
-                                        <p>Pemasukan</p>
+                                    <a href="{{route('kategoris.index')}}" class="nav-link  {{request()->is('kategori*') ? 'active' : ''}}">
+                                        <i class="fa fa-tags nav-icon" aria-hidden="true"></i>
+                                        <p>Kategori</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('pengeluaran.index')}}" class="nav-link  {{request()->is('pengeluaran*') ? 'active' : ''}}">
-                                        <i class="fa fa-arrow-circle-left nav-icon" aria-hidden="true"></i>
-                                        <p>Pengeluaran</p>
+                                    <a href="{{route('kategori-rekening.index')}}" class="nav-link  {{request()->is('kategori-rekening*') ? 'active' : ''}}">
+                                        <i class="fa fa-tags nav-icon" aria-hidden="true"></i>
+                                        <p>Kategori Rekening</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('transaksi.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
+                                        <i class="fa-solid fa-money-bill-transfer  nav-icon"></i>
+                                        <p>Transaksi Keuangan</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('donation.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
-                                        <i class="fa-solid fa-money-bill-transfer  nav-icon"></i>
+                                        <i class="fa fa-arrow-circle-right nav-icon"></i>
                                         <p>Donasi</p>
                                     </a>
                                 </li>
@@ -176,9 +182,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @endif
 
-<<<<<<< HEAD
                         @if(in_array(Auth::user()->role_id, [1,2]))
-=======
                         <li class="nav-item {{ request()->is('kategori-surat*') || request()->is('surat-masuk*') || request()->is('surat-keluar*') || request()->is('agenda*')  ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-file-invoice"></i>
@@ -216,7 +220,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
->>>>>>> main2
                         <li class="nav">
                             <a href="{{route('donation.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
                                 <i class="nav-icon fa fa-users"></i>

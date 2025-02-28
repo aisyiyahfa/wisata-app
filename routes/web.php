@@ -22,7 +22,6 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\KategoriRekeningController;
 use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\Admin\LaporanController;
-use App\Http\Controllers\Admin\SuratMasukController;
 use App\Http\Controllers\Admin\IncomingLetterController;
 use App\Http\Controllers\Admin\ReservasiController;
 /*
@@ -82,7 +81,7 @@ Route::middleware(['auth'])->group(function () {
     
 Route::resource('kategori-rekening', KategoriRekeningController::class);
 Route::resource('transaksi', TransaksiController::class);
-});
+
 // Laporan - Menggunakan method POST untuk filter
 Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 Route::get('/laporan/filter', [LaporanController::class, 'filter'])->name('laporan.filter');

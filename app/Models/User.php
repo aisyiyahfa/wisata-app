@@ -59,4 +59,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Jabatan::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user) {
+            $user->role_id = $user->role_id ?? 5; // Default Role: Pengunjung
+            $user->jabatan_id = $user->jabatan_id ?? 4; // Default Jabatan
+        });
+    }
 }

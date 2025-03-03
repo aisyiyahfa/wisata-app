@@ -22,7 +22,7 @@ class KategoriRekeningController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.bendahara.kategori-rekening.create');
     }
 
     /**
@@ -32,9 +32,10 @@ class KategoriRekeningController extends Controller
     {
         $request->validate([
             'nama_kategori_rekening' => 'required|string|max:255',
+            'no_rekening' => 'required|string|max:50|unique:kategori_rekenings,no_rekening',
         ]);
 
-        KategoriRekening::create($request->all());
+        KategoriRekening::create($request->only(['nama_kategori_rekening', 'no_rekening']));
 
         return redirect()->route('kategori-rekening.index')
                          ->with('success', 'Kategori rekening berhasil ditambahkan.');
@@ -43,42 +44,40 @@ class KategoriRekeningController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(KategoriRekening $kategoriRekening)
     {
-        //
+        return view('pages.bendahara.kategori-rekening.show', compact('kategoriRekening'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(KategoriRekening $kategoriRekening)
     {
-        $kategoriRekening = KategoriRekening::findOrFail($id);
-        return view('layouts.pages.bendahara.kategori_rekening.index', compact('kategoriRekening'));
+        return view('pages.bendahara.kategori-rekening.edit', compact('kategoriRekening'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, KategoriRekening $kategoriRekening)
     {
         $request->validate([
             'nama_kategori_rekening' => 'required|string|max:255',
+            'no_rekening' => 'required|string|max:50|unique:kategori_rekenings,no_rekening,' . $kategoriRekening->id,
         ]);
 
-        $kategoriRekening = KategoriRekening::findOrFail($id);
-        $kategoriRekening->update($request->all());
+        $kategoriRekening->update($request->only(['nama_kategori_rekening', 'no_rekening']));
 
         return redirect()->route('kategori-rekening.index')
-                         ->with('success', 'Kategori rekening berhasil diupdate.');
+                         ->with('success', 'Kategori rekening berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(KategoriRekening $kategoriRekening)
     {
-        $kategoriRekening = KategoriRekening::findOrFail($id);
         $kategoriRekening->delete();
 
         return redirect()->route('kategori-rekening.index')

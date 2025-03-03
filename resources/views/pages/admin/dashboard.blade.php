@@ -22,7 +22,7 @@ Dashboard
                 <div class="icon">
                     <i class="fa fa-money-bill"></i>
                 </div>
-                <a href="{{ route('pemasukan.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('laporan.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         @endif 
@@ -48,7 +48,7 @@ Dashboard
                     <p>Jumlah Pengunjung</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <i class="fa fa-user-friends" aria-hidden="true"></i>
                 </div>
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -60,13 +60,14 @@ Dashboard
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>150</h3>
-                    <p>Laporan Donasi</p>
+                    <p>Surat Menyurat</p>
                 </div>
                 <div class="icon">
-                    <i class="fa-solid fa-money-bill-transfer  nav-icon"></i>
+                    <i class="fas fa-envelope-open"></i> 
                 </div>
-                <a href="{{ route('donation.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('agenda.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
+            
         </div>
     </div>
     <div class="row">

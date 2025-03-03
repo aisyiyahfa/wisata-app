@@ -18,6 +18,7 @@
                         <tr class="text-center">
                             <th>No</th>
                             <th>Nama Kategori Rekening</th>
+                            <th>No Rekening</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -27,6 +28,7 @@
                         <tr class="text-center">
                             <td>{{$no++}}</td>
                             <td>{{$kategoriRekening->nama_kategori_rekening}}</td>
+                            <td>{{$kategoriRekening->no_rekening}}</td>
                             <td>
                                 <div class="btn-group">
                                     <button class="btn btn-sm btn-warning mr-1" data-toggle="modal" data-target="#edit{{$kategoriRekening->id}}"><i class="fa fa-pencil-alt" aria-hidden="true"></i></button>
@@ -55,7 +57,11 @@
                                             @method('put')
                                             <div class="form-group">
                                                 <label for="nama_kategori_rekening">Nama Kategori Rekening</label>
-                                                <input type="text" class="form-control" value="{{$kategoriRekening->nama_kategori_rekening}}" name="nama_kategori_rekening" id="nama_kategori_rekening" required>
+                                                <input type="text" class="form-control" value="{{$kategoriRekening->nama_kategori_rekening}}" name="nama_kategori_rekening" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="no_rekening">No Rekening</label>
+                                                <input type="text" class="form-control" value="{{$kategoriRekening->no_rekening}}" name="no_rekening" required>
                                             </div>
                                     </div>
                                     <div class="modal-footer justify-content-between">
@@ -90,7 +96,11 @@
                     @csrf
                     <div class="form-group">
                         <label for="nama_kategori_rekening">Nama Kategori Rekening</label>
-                        <input type="text" class="form-control" name="nama_kategori_rekening" id="nama_kategori_rekening" required>
+                        <input type="text" class="form-control" name="nama_kategori_rekening" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="no_rekening">No Rekening</label>
+                        <input type="text" class="form-control" name="no_rekening" required>
                     </div>
             </div>
             <div class="modal-footer justify-content-between">

@@ -10,17 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
 
     /**
@@ -28,7 +17,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -52,13 +41,21 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role_id' => ['nullable', 'integer', 'exists:roles,id'], // Validasi role_id
+            'jabatan_id' => ['nullable', 'integer', 'exists:jabatans,id'], // Validasi jabatan_id
         ]);
     }
 
-    public function showRegistrationForm()  
-{  
-    return view('auth.register'); // Make sure you have a register.blade.php view  
-}  
+    /**
+     * Show the registration form.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function showRegistrationForm()
+    {  
+        return view('auth.register'); // Pastikan ada register.blade.php di resources/views/auth
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -71,6 +68,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role_id' => $data['role_id'] ?? 5, // Default role_id = 2 jika tidak diberikan
+            'jabatan_id' => $data['jabatan_id'] ?? null, // Bisa null jika tidak diisi
         ]);
     }
 }

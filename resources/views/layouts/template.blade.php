@@ -145,7 +145,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         @endif
 
                         @if(in_array(Auth::user()->role_id, [1, 2, 3, 4]))
-                        <li class="nav-item {{ request()->is('pemasukan*') || request()->is('pengeluaran*') || request()->is('donasi*') ? 'menu-open' : '' }}">
+                        <li class="nav-item {{ request()->is('kategoris*') || request()->is('kategori-rekening*') || request()->is('transaksi*')|| request()->is('donation*') || request()->is('laporan*') || request()->is('bendahara*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-money-bill"></i>
                                 <p>
@@ -155,27 +155,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('kategoris.index')}}" class="nav-link  {{request()->is('kategori*') ? 'active' : ''}}">
+                                    <a href="{{route('kategoris.index')}}" class="nav-link  {{request()->is('kategoris*') ? 'active' : ''}}">
                                         <i class="fa fa-tags nav-icon" aria-hidden="true"></i>
                                         <p>Kategori</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('kategori-rekening.index')}}" class="nav-link  {{request()->is('kategori-rekening*') ? 'active' : ''}}">
-                                        <i class="fa fa-tags nav-icon" aria-hidden="true"></i>
+                                        <i class="fa-solid fa-wallet nav-icon" aria-hidden="true"></i>
                                         <p>Kategori Rekening</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('transaksi.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
-                                        <i class="fa-solid fa-money-bill-transfer  nav-icon"></i>
+                                    <a href="{{route('transaksi.index')}}" class="nav-link  {{request()->is('transaksi*') ? 'active' : ''}}">
+                                        <i class="fa-solid fa-money-bill-transfer  nav-icon" aria-hidden="true"></i>
                                         <p>Transaksi Keuangan</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('donation.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
-                                        <i class="fa fa-arrow-circle-right nav-icon"></i>
-                                        <p>Donasi</p>
+                                    <a href="{{route('laporan.index')}}" class="nav-link  {{request()->is('laporan*') ? 'active' : ''}}">
+                                        <i class="fa-solid fa-coins nav-icon" aria-hidden="true"></i>
+                                        <p>Laporan Keuangan</p>
                                     </a>
                                 </li>
                             </ul>

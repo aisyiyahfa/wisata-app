@@ -9,7 +9,7 @@ class KategoriRekening extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_kategori_rekening'];
+    protected $fillable = ['nama_kategori_rekening','no_rekening'];
 
     public function transaksis()
     {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Disposisi;
 use App\Models\Surat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -20,13 +21,17 @@ class DisposisiController extends Controller
     public function create($surat_id)
     {
         $surat = Surat::findOrFail($surat_id);
-        return view('pages.disposisi-surat.create', compact('surat'));
+        $users = User::all();
+
+        return view('pages.disposisi-surat.create', compact('surat', 'users'));
     }
 
     public function edit($id)
     {
         $disposisi = Disposisi::findOrFail($id);
-        return view('pages.disposisi-surat.edit', compact('disposisi'));
+        $users = User::all();
+        
+        return view('pages.disposisi-surat.edit', compact('disposisi', 'users'));
     }
 
     public function store(Request $request)

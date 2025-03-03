@@ -10,6 +10,7 @@ class Reservasi extends Model
     use HasFactory;
     protected $fillable = [
         'nama_ketua',
+        'user_id',
         'jumlah_rombongan',
         'alamat_rombongan',
         'tanggal_kunjungan',
@@ -17,4 +18,9 @@ class Reservasi extends Model
         'email',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

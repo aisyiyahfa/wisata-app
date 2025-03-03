@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\KategoriRekeningController;
 use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\IncomingLetterController;
+use App\Http\Controllers\Admin\JamReservasiController;
 use App\Http\Controllers\Admin\ReservasiController;
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::resource('kategori-surat', KategoriSuratController::class);
+    Route::resource('jam-reservasi', JamReservasiController::class);
     Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
     Route::get('/agenda/pdf', [AgendaController::class, 'pdf'])->name('agenda.df');
 });
@@ -97,6 +99,11 @@ Route::resource('incoming', IncomingLetterController::class);
   
 Route::resource('donation', DonationController::class);  
 
-Route::resource('reservasi', ReservasiController::class);
+Route::resource('reservasi', ReservasiController::class)->only('index', 'create', 'store');
+Route::get('/reservasi/{id}/approve', [ReservasiController::class, 'approve'])->name('reservasi.approve');
+Route::get('/reservasi/{id}/reject', [ReservasiController::class, 'reject'])->name('reservasi.reject');
+Route::get('/reservasi/{id}/cancel', [ReservasiController::class, 'cancel'])->name('reservasi.cancel');
+Route::get('/cek-reservasi', [ReservasiController::class, 'cekReservasi'])->name('reservasi.cek');
+
 
 

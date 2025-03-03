@@ -31,50 +31,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>
-            </ul>
-
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-
-                <!-- Messages Dropdown Menu -->
-
-                <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user-circle" aria-hidden="true" style="font-size: 1.6rem;"></i>
-
-                        <span>Hi, {{Auth::user()->name}}</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-center" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                            {{ __('Logout') }}
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </div>
-                </li>
-
-            </ul>
-        </nav>
-        <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -219,24 +175,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 
                             </ul>
                         </li>
-
+                        <li class="nav-item {{ request()->is('jam-reservasi*') || request()->is('reservasi*') || request()->is('surat-keluar*')  ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-file-invoice"></i>
+                                <p>
+                                    Reservasi
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('reservasi.index')}}" class="nav-link  {{request()->is('reservasi*') ? 'active' : ''}}">
+                                        <i class="fa fa-calendar nav-icon" aria-hidden="true"></i> 
+                                        <p>Data Reservasi</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('jam-reservasi.index')}}" class="nav-link  {{request()->is('jam-reservasi*') ? 'active' : ''}}">
+                                        <i class="fa fa-clock nav-icon" aria-hidden="true"></i>
+                                        <p>Jam Reservasi</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav">
                             <a href="{{route('donation.index')}}" class="nav-link  {{request()->is('donasi*') ? 'active' : ''}}">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
                                     Jumlah Pengunjung
-                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                         </li>
                         @endif
                         @if(in_array(Auth::user()->role_id, [5]))
                         <li class="nav">
-                            <a href="{{ route('donation.index') }}" class="nav-link">
+                            <a href="{{ route('donation.index') }}" class="nav-link {{request()->is('donasi*') ? 'active' : ''}}">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
                                     Donasi
-                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav">
+                            <a href="{{ route('reservasi.create') }}" class="nav-link {{request()->is('reservasi*') ? 'active' : ''}}">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    Reservasi
                                 </p>
                             </a>
                         </li>
@@ -333,7 +316,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="{{url('template/dist/js/adminlte.min.js')}}"></script>
 
-
+    @yield('scripts')
     <script>
         $(function() {
             $('.select2').select2()

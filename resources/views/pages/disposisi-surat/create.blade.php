@@ -22,7 +22,11 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="penerima">Penerima</label>
-                                <input type="text" name="penerima" id="penerima" class="form-control" required>
+                                <select name="penerima" id="penerima" class="form-control" required>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->name}}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">

@@ -85,6 +85,7 @@ Route::resource('transaksi', TransaksiController::class);
 
 // Laporan - Menggunakan method POST untuk filter
 Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/jumlah-pengunjung', [LaporanController::class, 'jumlahPengunjung'])->name('jumlah-pengunjung.index');
 Route::get('/laporan/filter', [LaporanController::class, 'filter'])->name('laporan.filter');
 Auth::routes();
 Route::resource('surat-masuk', SuratMasukController::class);

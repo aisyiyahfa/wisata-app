@@ -18,18 +18,18 @@ class DashboardController extends Controller
         $user = Auth::user();
         $tahun = $request->input('tahun', date('Y'));
 
-        $totalPemasukan = Pemasukan::whereYear('created_at', $tahun)->sum('nominal');
-        $totalPengeluaran = Pengeluaran::whereYear('created_at', $tahun)->sum('nominal');
+        $totalPemasukan = Pemasukan::whereYear('tanggal', $tahun)->sum('nominal');
+        $totalPengeluaran = Pengeluaran::whereYear('tanggal', $tahun)->sum('nominal');
 
-        $pemasukanPerBulan = Pemasukan::selectRaw('MONTH(created_at) as bulan, SUM(nominal) as total')
-            ->whereYear('created_at', $tahun)
+        $pemasukanPerBulan = Pemasukan::selectRaw('MONTH(tanggal) as bulan, SUM(nominal) as total')
+            ->whereYear('tanggal', $tahun)
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->pluck('total', 'bulan')
             ->toArray();
 
-        $pengeluaranPerBulan = Pengeluaran::selectRaw('MONTH(created_at) as bulan, SUM(nominal) as total')
-            ->whereYear('created_at', $tahun)
+        $pengeluaranPerBulan = Pengeluaran::selectRaw('MONTH(tanggal) as bulan, SUM(nominal) as total')
+            ->whereYear('tanggal', $tahun)
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->pluck('total', 'bulan')

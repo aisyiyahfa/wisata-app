@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
 use App\Models\Kategori;
 use App\Models\KategoriRekening;
+use App\Models\Reservasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LaporanController extends Controller
 {
@@ -36,7 +38,7 @@ class LaporanController extends Controller
         $saldoAkhir = $totalPemasukan - $totalPengeluaran;
 
 
-        return view('pages.bendahara.laporan.index', compact('transaksis', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir',  'kategoris', 'kategoriRekenings')); 
+        return view('pages.bendahara.laporan.index', compact('transaksis', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir',  'kategoris', 'kategoriRekenings'));
     }
     public function filter(Request $request)
     {
@@ -79,8 +81,41 @@ class LaporanController extends Controller
         $kategoriRekenings = KategoriRekening::all();
 
         // Mengirim data ke view
-        return view('pages.bendahara.laporan.index', compact('transaksis', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir',  'kategoris', 'kategoriRekenings')); 
+        return view('pages.bendahara.laporan.index', compact('transaksis', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir',  'kategoris', 'kategoriRekenings'));
     }
 
+    public function jumlahPengunjung(Request $request)
+    {
+        $tahun = $request->tahun ?? date('Y');
 
+        $data = Reservasi::selectRaw('MONTH(tanggal_kunjungan) as bulan, SUM(jumlah_rombongan) as total')
+            ->where('status', 'disetujui')
+            ->whereYear('tanggal_kunjungan', $tahun)
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->pluck('total', 'bulan')
+            ->toArray();
+
+        $labels = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        ];
+
+        $values = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $values[] = $data[$i] ?? 0;
+        }
+
+        return view('pages.admin.pengunjung.index', compact('labels', 'values', 'tahun'));
+    }
 }

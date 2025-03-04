@@ -269,7 +269,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </ul>
                             </li>
                             <li class="nav">
-                                <a href="{{ route('donation.index') }}"
+                                <a href="{{ route('jumlah-pengunjung.index') }}"
                                     class="nav-link  {{ request()->is('donasi*') ? 'active' : '' }}">
                                     <i class="nav-icon fa fa-users"></i>
                                     <p>

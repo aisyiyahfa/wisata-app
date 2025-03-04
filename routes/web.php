@@ -17,7 +17,6 @@ use App\Http\Controllers\AgendaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DonationController;  
-use App\Http\Controllers\Auth\RegisterController;  
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\KategoriRekeningController;
 use App\Http\Controllers\Admin\TransaksiController;
@@ -72,11 +71,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agenda/pdf', [AgendaController::class, 'pdf'])->name('agenda.df');
 });
 
-    Route::get('/superadmin', [AdminController::class, 'superAdmin'])->middleware('userAcces:1');
-    Route::get('/ketua', [AdminController::class, 'ketua'])->middleware('userAcces:2');
-    Route::get('/bendahara1', [AdminController::class, 'bendahara1'])->middleware('userAcces:3');
-    Route::get('/bendahara2', [AdminController::class, 'bendahara2'])->middleware('userAcces:4');
-    Route::get('/pengunjung', [AdminController::class, 'pengunjung'])->middleware('userAcces:5');
+    Route::get('/superadmin', [DashboardController::class, 'index'])->middleware('userAcces:1');
+    Route::get('/ketua', [DashboardController::class, 'index'])->middleware('userAcces:2');
+    Route::get('/bendahara1', [DashboardController::class, 'index'])->middleware('userAcces:3');
+    Route::get('/bendahara2', [DashboardController::class, 'index'])->middleware('userAcces:4');
+    Route::get('/pengunjung', [DashboardController::class, 'index'])->middleware('userAcces:5');
     Route::get('/logout', [LoginController::class, 'logout']);
     Route::get('/donasi-pdf', [DonasiController::class, 'pdf'])->name('donasi-pdf'); 
     Route::resource('kategoris', KategoriController::class); 

@@ -16,7 +16,7 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $tahun = $request->input('tahun', date('Y')); // Default tahun saat ini
+        $tahun = $request->input('tahun', date('Y'));
 
         $totalPemasukan = Pemasukan::whereYear('created_at', $tahun)->sum('nominal');
         $totalPengeluaran = Pengeluaran::whereYear('created_at', $tahun)->sum('nominal');

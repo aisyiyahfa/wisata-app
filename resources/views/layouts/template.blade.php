@@ -249,6 +249,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <i class="nav-icon fa fa-file-invoice"></i>
                                     <p>
                                         Reservasi
+                                        <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
@@ -279,15 +280,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                         @endif
                         @if (in_array(Auth::user()->role_id, [5]))
-                            <li class="nav">
-                                <a href="{{ route('donation.index') }}"
-                                    class="nav-link {{ request()->is('donasi*') ? 'active' : '' }}">
-                                    <i class="nav-icon fa fa-users"></i>
-                                    <p>
-                                        Donasi
-                                    </p>
-                                </a>
-                            </li>
                             <li class="nav">
                                 <a href="{{ route('reservasi.create') }}"
                                     class="nav-link {{ request()->is('reservasi*') ? 'active' : '' }}">

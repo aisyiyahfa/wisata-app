@@ -16,20 +16,24 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $tahun = $request->input('tahun', date('Y'));
 
-        $totalPemasukan = Pemasukan::whereYear('tanggal', $tahun)->sum('nominal');
-        $totalPengeluaran = Pengeluaran::whereYear('tanggal', $tahun)->sum('nominal');
+        // Ambil tahun untuk masing-masing report secara terpisah
+        $tahunKeuangan = $request->input('tahun_keuangan', date('Y'));
+        $tahunSurat = $request->input('tahun_surat', date('Y'));
+
+        // Data Keuangan (Hanya jika ada filter tahun_keuangan)
+        $totalPemasukan = Pemasukan::whereYear('tanggal', $tahunKeuangan)->sum('nominal');
+        $totalPengeluaran = Pengeluaran::whereYear('tanggal', $tahunKeuangan)->sum('nominal');
 
         $pemasukanPerBulan = Pemasukan::selectRaw('MONTH(tanggal) as bulan, SUM(nominal) as total')
-            ->whereYear('tanggal', $tahun)
+            ->whereYear('tanggal', $tahunKeuangan)
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->pluck('total', 'bulan')
             ->toArray();
 
         $pengeluaranPerBulan = Pengeluaran::selectRaw('MONTH(tanggal) as bulan, SUM(nominal) as total')
-            ->whereYear('tanggal', $tahun)
+            ->whereYear('tanggal', $tahunKeuangan)
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->pluck('total', 'bulan')
@@ -46,9 +50,14 @@ class DashboardController extends Controller
 
         $saldoKeuangan = $totalPemasukan - $totalPengeluaran;
 
+        // Data Surat Menyurat (Hanya jika ada filter tahun_surat)
+        $jumlahSurat = Surat::whereYear('tanggal_surat', $tahunSurat)->count();
+        $dataSuratMasuk = Surat::where('tipe', 'masuk')->whereYear('tanggal_surat', $tahunSurat)->get();
+        $dataSuratKeluar = Surat::where('tipe', 'keluar')->whereYear('tanggal_surat', $tahunSurat)->get();
+
+        // Data Umum
         $jumlahPengunjung = Reservasi::where('status', 'disetujui')->sum('jumlah_rombongan');
         $jumlahUsers = User::count();
-        $jumlahSurat = Surat::count();
 
         return view('pages.admin.dashboard', compact(
             'jumlahUsers',
@@ -61,7 +70,10 @@ class DashboardController extends Controller
             'bulanLabels',
             'dataPemasukan',
             'dataPengeluaran',
-            'tahun'
+            'tahunKeuangan',
+            'tahunSurat',
+            'dataSuratMasuk',
+            'dataSuratKeluar'
         ));
     }
 }

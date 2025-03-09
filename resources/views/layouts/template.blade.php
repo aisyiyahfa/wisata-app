@@ -43,10 +43,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
+                    <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="https://khasantuka.id/hubungi-kami/" class="nav-link">Contact</a>
                 </li>
             </ul>
 
@@ -83,7 +83,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="https://khasantuka.id/" class="brand-link">
                 <span class="brand-text font-weight-light">WISATA KHASANTUKA</span>
             </a>
 
@@ -91,13 +91,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
+                    {{-- <div class="image">
                         <img src="{{ url('template/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
                             alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <!-- SidebarSearch Form -->
@@ -153,7 +153,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                         @endif
 
-                        @if (in_array(Auth::user()->role_id, [1, 2, 3, 4]))
+                        @if (in_array(Auth::user()->role_id, [1,3]))
                             <li
                                 class="nav-item {{ request()->is('kategoris*') || request()->is('kategori-rekening*') || request()->is('transaksi*') || request()->is('donation*') || request()->is('laporan*') || request()->is('bendahara*') ? 'menu-open' : '' }}">
                                 <a href="#" class="nav-link">
@@ -197,7 +197,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                         @endif
 
-                        @if (in_array(Auth::user()->role_id, [1, 2]))
+                        @if (in_array(Auth::user()->role_id, [2]))
+                        <li class="nav-item">
+                            <a href="{{ route('laporan.index') }}"
+                                class="nav-link  {{ request()->is('laporan*') ? 'active' : '' }}">
+                                <i class="fa-solid fa-coins nav-icon" aria-hidden="true"></i>
+                                <p>Laporan Keuangan</p>
+                            </a>
+                        </li>
+                        @endif
+                        @if (in_array(Auth::user()->role_id, [1,4]))
                             <li
                                 class="nav-item {{ request()->is('kategori-surat*') || request()->is('surat-masuk*') || request()->is('surat-keluar*') || request()->is('agenda*') ? 'menu-open' : '' }}">
                                 <a href="#" class="nav-link">
@@ -240,11 +249,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Buku Agenda</p>
                                         </a>
                                     </li>
-
                                 </ul>
                             </li>
+                            @endif
+                            @if (in_array(Auth::user()->role_id, [2]))
+                            <li class="nav-item">
+                                <a href="{{ route('agenda.index') }}"
+                                    class="nav-link  {{ request()->is('agenda*') ? 'active' : '' }}">
+                                    <i class="fa fa-book nav-icon" aria-hidden="true"></i>
+                                    <!-- Ikon buku agenda -->
+                                    <p>Buku Agenda</p>
+                                </a>
+                            </li>
+                            @endif
+                           
+                            @if (in_array(Auth::user()->role_id, [1]))
                             <li
-                                class="nav-item {{ request()->is('jam-reservasi*') || request()->is('reservasi*') || request()->is('surat-keluar*') ? 'menu-open' : '' }}">
+                                class="nav-item {{ request()->is('jam-reservasi*') || request()->is('reservasi*') || request()->is('jumlah-pengunjung*') ? 'menu-open' : '' }}">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-file-invoice"></i>
                                     <p>
@@ -269,16 +290,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
                                 </ul>
                             </li>
+                            @endif
+                            @if (in_array(Auth::user()->role_id, [2]))
                             <li class="nav">
                                 <a href="{{ route('jumlah-pengunjung.index') }}"
-                                    class="nav-link  {{ request()->is('donasi*') ? 'active' : '' }}">
+                                    class="nav-link  {{ request()->is('jumlah-pengunjung*') ? 'active' : '' }}">
                                     <i class="nav-icon fa fa-users"></i>
                                     <p>
                                         Jumlah Pengunjung
                                     </p>
                                 </a>
                             </li>
-                        @endif
+                            @endif
                         @if (in_array(Auth::user()->role_id, [5]))
                             <li class="nav">
                                 <a href="{{ route('reservasi.create') }}"

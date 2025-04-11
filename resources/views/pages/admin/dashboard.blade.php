@@ -41,8 +41,8 @@
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        @endif
-        @if (in_array(Auth::user()->role_id, [1,2]))
+    @endif
+    @if (in_array(Auth::user()->role_id, [1, 2]))
         <div class="col-lg-3 col-8">
             <!-- small box -->
             <div class="small-box bg-primary">
@@ -57,7 +57,7 @@
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        @endif
+    @endif
     @if (in_array(Auth::user()->role_id, [1, 2]))
         <div class="col-lg-3 col-8">
             <!-- small box -->
@@ -75,9 +75,9 @@
         </div>
         </div>
         </div>
-        @endif
+    @endif
 
-        @if (in_array(Auth::user()->role_id, [1,3]))
+    @if (in_array(Auth::user()->role_id, [1, 3]))
         <div class="container">
             <!-- Filter Keuangan -->
             <div class="row mb-4">
@@ -85,14 +85,14 @@
                     <form action="{{ route('dashboard') }}" method="GET">
                         <div class="d-flex align-items-center">
                             <input type="hidden" name="tahun_surat" value="{{ request('tahun_surat', date('Y')) }}">
-                            <input type="text" class="form-control" name="tahun_keuangan" 
+                            <input type="text" class="form-control" name="tahun_keuangan"
                                 value="{{ request('tahun_keuangan', date('Y')) }}" placeholder="Tahun Keuangan">
                             <button type="submit" class="btn btn-primary mx-2">Filter</button>
                         </div>
                     </form>
                 </div>
             </div>
-    
+
             <!-- Grafik Keuangan -->
             <div class="row">
                 <div class="col-md-12">
@@ -110,8 +110,8 @@
             </div>
         </div>
     @endif
-    
-    @if (in_array(Auth::user()->role_id, [4]))
+
+    @if (in_array(Auth::user()->role_id, [4]) || Auth::user()->role_id == 1)
         <div class="container">
             <!-- Filter Surat Menyurat -->
             <div class="row mb-4">
@@ -119,14 +119,14 @@
                     <form action="{{ route('dashboard') }}" method="GET">
                         <div class="d-flex align-items-center">
                             <input type="hidden" name="tahun_keuangan" value="{{ request('tahun_keuangan', date('Y')) }}">
-                            <input type="text" class="form-control" name="tahun_surat" 
+                            <input type="text" class="form-control" name="tahun_surat"
                                 value="{{ request('tahun_surat', date('Y')) }}" placeholder="Tahun Surat">
                             <button type="submit" class="btn btn-primary mx-2">Filter</button>
                         </div>
                     </form>
                 </div>
             </div>
-    
+
             <!-- Grafik Surat Menyurat -->
             <div class="row">
                 <div class="col-md-12">
@@ -170,7 +170,7 @@
 @push('addon-script')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             // Grafik Keuangan
             var canvasArea = document.getElementById("areaChart");
             if (canvasArea) {
@@ -180,16 +180,11 @@
                 var dataPemasukan = @json($dataPemasukan) || [];
                 var dataPengeluaran = @json($dataPengeluaran) || [];
 
-                console.log("Labels (Bulan):", bulanLabels);
-                console.log("Data Pemasukan:", dataPemasukan);
-                console.log("Data Pengeluaran:", dataPengeluaran);
-
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: bulanLabels,
-                        datasets: [
-                            {
+                        datasets: [{
                                 label: 'Pemasukan',
                                 backgroundColor: 'rgba(60,141,188,0.9)',
                                 borderColor: 'rgba(60,141,188,0.8)',
@@ -209,65 +204,44 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            x: { grid: { display: false } },
-                            y: { beginAtZero: true }
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
                 });
             }
 
-            // Grafik Surat Menyurat
             var canvasSurat = document.getElementById("suratChart");
             if (canvasSurat) {
                 var ctxSurat = canvasSurat.getContext("2d");
 
-                // Default data surat masuk & keluar per bulan
-                var defaultBulan = {
-                    "01": 0, "02": 0, "03": 0, "04": 0, "05": 0, "06": 0,
-                    "07": 0, "08": 0, "09": 0, "10": 0, "11": 0, "12": 0
-                };
-
-                // Ambil data surat dari server
-                var dataSuratMasuk = {!! json_encode($dataSuratMasuk->groupBy(function($date) {
-                    return \Carbon\Carbon::parse($date->tanggal_surat)->format('m');
-                })->map->count()) !!} || {};
-
-                var dataSuratKeluar = {!! json_encode($dataSuratKeluar->groupBy(function($date) {
-                    return \Carbon\Carbon::parse($date->tanggal_surat)->format('m');
-                })->map->count()) !!} || {};
-
-                // Gabungkan dengan default untuk memastikan semua bulan ada
-                dataSuratMasuk = { ...defaultBulan, ...dataSuratMasuk };
-                dataSuratKeluar = { ...defaultBulan, ...dataSuratKeluar };
-
-
-                // Label bulan dalam bahasa Indonesia
-                var bulanLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-
-                // Ambil nilai sesuai urutan bulan
-                var suratMasukValues = Object.values(dataSuratMasuk).map(Number);
-                var suratKeluarValues = Object.values(dataSuratKeluar).map(Number);
-
-                // Debugging data di console
-                console.log("Surat Masuk per Bulan:", dataSuratMasuk);
-                console.log("Surat Keluar per Bulan:", dataSuratKeluar);
+                var bulanLabels = @json($bulanLabels);
+                var dataSuratMasuk = @json($suratMasukPerBulan) || [];
+                var dataSuratKeluar = @json($suratKeluarPerBulan) || [];
 
                 new Chart(ctxSurat, {
                     type: 'bar',
                     data: {
                         labels: bulanLabels,
-                        datasets: [
-                            {
-                                label: "Surat Masuk",
-                                backgroundColor: "rgba(60,141,188,0.9)",
-                                borderColor: "rgba(60,141,188,0.8)",
-                                data: suratMasukValues
+                        datasets: [{
+                                label: 'Surat Masuk',
+                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                borderColor: 'rgba(60,141,188,0.8)',
+                                data: dataSuratMasuk,
+                                borderWidth: 1
                             },
                             {
-                                label: "Surat Keluar",
-                                backgroundColor: "rgba(210, 214, 222, 1)",
-                                borderColor: "rgba(210, 214, 222, 1)",
-                                data: suratKeluarValues
+                                label: 'Surat Keluar',
+                                backgroundColor: 'rgba(210, 214, 222, 1)',
+                                borderColor: 'rgba(210, 214, 222, 1)',
+                                data: dataSuratKeluar,
+                                borderWidth: 1
                             }
                         ]
                     },
@@ -275,11 +249,19 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: { beginAtZero: true }
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
                 });
             }
+
         });
     </script>
 @endpush

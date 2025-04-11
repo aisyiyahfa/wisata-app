@@ -9,7 +9,9 @@ use App\Models\Roles;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -113,9 +115,18 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = User::find($id);
-        $user->delete();
+        $currentUser = Auth::user();
 
+        if ($currentUser->id == $id) {
+            Alert::error('Akses Ditolak', 'Anda tidak dapat menghapus akun Anda sendiri.');
+            return redirect()->route('user.index');
+        }
+    
+        $user = User::findOrFail($id);
+        $user->delete();
+    
+        Alert::success('Berhasil', 'Data pengguna berhasil dihapus.');
         return redirect()->route('user.index');
+    
     }
 }

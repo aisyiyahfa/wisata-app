@@ -17,28 +17,28 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Ambil tahun untuk masing-masing laporan, default ke tahun saat ini jika tidak disediakan
         $tahunKeuangan = $request->input('tahun_keuangan', date('Y'));
         $tahunSurat = $request->input('tahun_surat', date('Y'));
 
-        // Data Keuangan
-        $totalPemasukan = Pemasukan::whereYear('tanggal', $tahunKeuangan)->sum('nominal');
-        $totalPengeluaran = Pengeluaran::whereYear('tanggal', $tahunKeuangan)->sum('nominal');
+        $totalPemasukan = Pemasukan::selectRaw('SUM(CAST(REPLACE(nominal, ".", "") AS UNSIGNED)) as total')
+            ->whereYear('tanggal', $tahunKeuangan)
+            ->value('total');
 
-        // Inisialisasi array untuk menampung pemasukan dan pengeluaran tiap bulan
+        $totalPengeluaran = Pengeluaran::selectRaw('SUM(CAST(REPLACE(nominal, ".", "") AS UNSIGNED)) as total')
+            ->whereYear('tanggal', $tahunKeuangan)
+            ->value('total');
+
         $dataPemasukan = array_fill(0, 12, 0);
         $dataPengeluaran = array_fill(0, 12, 0);
 
-        // Ambil data pemasukan per bulan
-        $pemasukanPerBulan = Pemasukan::selectRaw('MONTH(tanggal) as bulan, SUM(nominal) as total')
+        $pemasukanPerBulan = Pemasukan::selectRaw('MONTH(tanggal) as bulan, SUM(CAST(REPLACE(nominal, ".", "") AS UNSIGNED)) as total')
             ->whereYear('tanggal', $tahunKeuangan)
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->pluck('total', 'bulan')
             ->toArray();
 
-        // Ambil data pengeluaran per bulan
-        $pengeluaranPerBulan = Pengeluaran::selectRaw('MONTH(tanggal) as bulan, SUM(nominal) as total')
+        $pengeluaranPerBulan = Pengeluaran::selectRaw('MONTH(tanggal) as bulan, SUM(CAST(REPLACE(nominal, ".", "") AS UNSIGNED)) as total')
             ->whereYear('tanggal', $tahunKeuangan)
             ->groupBy('bulan')
             ->orderBy('bulan')
@@ -61,8 +61,27 @@ class DashboardController extends Controller
 
         // Data Surat Menyurat
         $jumlahSurat = Surat::whereYear('tanggal_surat', $tahunSurat)->count();
-        $dataSuratMasuk = Surat::where('tipe', 'masuk')->whereYear('tanggal_surat', $tahunSurat)->get();
-        $dataSuratKeluar = Surat::where('tipe', 'keluar')->whereYear('tanggal_surat', $tahunSurat)->get();
+
+        $suratMasukPerBulan = array_fill(0, 12, 0);
+        $suratKeluarPerBulan = array_fill(0, 12, 0);
+
+        $suratMasuk = Surat::where('tipe', 'masuk')
+            ->whereYear('tanggal_surat', $tahunSurat)
+            ->get();
+
+        $suratKeluar = Surat::where('tipe', 'keluar')
+            ->whereYear('tanggal_surat', $tahunSurat)
+            ->get();
+
+        foreach ($suratMasuk as $surat) {
+            $bulan = (int) \Carbon\Carbon::parse($surat->tanggal_surat)->format('m');
+            $suratMasukPerBulan[$bulan - 1]++;
+        }
+
+        foreach ($suratKeluar as $surat) {
+            $bulan = (int) \Carbon\Carbon::parse($surat->tanggal_surat)->format('m');
+            $suratKeluarPerBulan[$bulan - 1]++;
+        }
 
         // Data Umum
         $jumlahPengunjung = Reservasi::where('status', 'disetujui')->sum('jumlah_rombongan');
@@ -81,8 +100,8 @@ class DashboardController extends Controller
             'dataPengeluaran',
             'tahunKeuangan',
             'tahunSurat',
-            'dataSuratMasuk',
-            'dataSuratKeluar'
+            'suratMasukPerBulan',
+            'suratKeluarPerBulan',
         ));
     }
 }

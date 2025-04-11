@@ -7,6 +7,7 @@ use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 use App\Models\Reservasi;
 use App\Models\Surat;
+use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,25 +21,25 @@ class DashboardController extends Controller
         $tahunKeuangan = $request->input('tahun_keuangan', date('Y'));
         $tahunSurat = $request->input('tahun_surat', date('Y'));
 
-        $totalPemasukan = Pemasukan::selectRaw('SUM(CAST(REPLACE(nominal, ".", "") AS UNSIGNED)) as total')
+        $totalPemasukan = Transaksi::selectRaw('SUM(pemasukan) as total')
             ->whereYear('tanggal', $tahunKeuangan)
             ->value('total');
 
-        $totalPengeluaran = Pengeluaran::selectRaw('SUM(CAST(REPLACE(nominal, ".", "") AS UNSIGNED)) as total')
+        $totalPengeluaran = Transaksi::selectRaw('SUM(pengeluaran) as total')
             ->whereYear('tanggal', $tahunKeuangan)
             ->value('total');
 
         $dataPemasukan = array_fill(0, 12, 0);
         $dataPengeluaran = array_fill(0, 12, 0);
 
-        $pemasukanPerBulan = Pemasukan::selectRaw('MONTH(tanggal) as bulan, SUM(CAST(REPLACE(nominal, ".", "") AS UNSIGNED)) as total')
+        $pemasukanPerBulan = Transaksi::selectRaw('MONTH(tanggal) as bulan, SUM(pemasukan) as total')
             ->whereYear('tanggal', $tahunKeuangan)
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->pluck('total', 'bulan')
             ->toArray();
 
-        $pengeluaranPerBulan = Pengeluaran::selectRaw('MONTH(tanggal) as bulan, SUM(CAST(REPLACE(nominal, ".", "") AS UNSIGNED)) as total')
+        $pengeluaranPerBulan = Transaksi::selectRaw('MONTH(tanggal) as bulan, SUM(pengeluaran) as total')
             ->whereYear('tanggal', $tahunKeuangan)
             ->groupBy('bulan')
             ->orderBy('bulan')

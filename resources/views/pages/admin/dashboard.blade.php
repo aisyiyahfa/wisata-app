@@ -111,7 +111,7 @@
         </div>
     @endif
 
-    @if (in_array(Auth::user()->role_id, [4]) || Auth::user()->role_id == 1)
+    @if (in_array(Auth::user()->role_id, [4]))
         <div class="container">
             <!-- Filter Surat Menyurat -->
             <div class="row mb-4">

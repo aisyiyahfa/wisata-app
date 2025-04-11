@@ -60,6 +60,7 @@
                                 <th class="text-center text-nowrap">Tanggal Kunjungan</th>
                                 <th class="text-center text-nowrap">Jam Kunjungan</th>
                                 <th class="text-center text-nowrap">Email</th>
+                                <th class="text-center text-nowrap">No. Telepon / WA</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -75,6 +76,7 @@
                                     </td>
                                     <td>{{ \Carbon\Carbon::parse($item->jam_kunjungan)->format('H:i') }}</td>
                                     <td>{{ $item->email }}</td>
+                                    <td>{{ $item->telepon }}</td>
                                     <td>
                                         @switch($item->status)
                                             @case('Disetujui')

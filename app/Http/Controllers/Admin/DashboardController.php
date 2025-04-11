@@ -17,14 +17,19 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Ambil tahun untuk masing-masing report secara terpisah
+        // Ambil tahun untuk masing-masing laporan, default ke tahun saat ini jika tidak disediakan
         $tahunKeuangan = $request->input('tahun_keuangan', date('Y'));
         $tahunSurat = $request->input('tahun_surat', date('Y'));
 
-        // Data Keuangan (Hanya jika ada filter tahun_keuangan)
+        // Data Keuangan
         $totalPemasukan = Pemasukan::whereYear('tanggal', $tahunKeuangan)->sum('nominal');
         $totalPengeluaran = Pengeluaran::whereYear('tanggal', $tahunKeuangan)->sum('nominal');
 
+        // Inisialisasi array untuk menampung pemasukan dan pengeluaran tiap bulan
+        $dataPemasukan = array_fill(0, 12, 0);
+        $dataPengeluaran = array_fill(0, 12, 0);
+
+        // Ambil data pemasukan per bulan
         $pemasukanPerBulan = Pemasukan::selectRaw('MONTH(tanggal) as bulan, SUM(nominal) as total')
             ->whereYear('tanggal', $tahunKeuangan)
             ->groupBy('bulan')
@@ -32,6 +37,7 @@ class DashboardController extends Controller
             ->pluck('total', 'bulan')
             ->toArray();
 
+        // Ambil data pengeluaran per bulan
         $pengeluaranPerBulan = Pengeluaran::selectRaw('MONTH(tanggal) as bulan, SUM(nominal) as total')
             ->whereYear('tanggal', $tahunKeuangan)
             ->groupBy('bulan')
@@ -39,18 +45,21 @@ class DashboardController extends Controller
             ->pluck('total', 'bulan')
             ->toArray();
 
-        $bulanLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-
-        $dataPemasukan = [];
-        $dataPengeluaran = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $dataPemasukan[] = $pemasukanPerBulan[$i] ?? 0;
-            $dataPengeluaran[] = $pengeluaranPerBulan[$i] ?? 0;
+        // Masukkan data ke dalam array sesuai dengan indeks yang benar
+        foreach ($pemasukanPerBulan as $bulan => $total) {
+            $dataPemasukan[$bulan - 1] = $total; // Kurangi 1 agar bulan Januari (1) masuk ke indeks 0
         }
+
+        foreach ($pengeluaranPerBulan as $bulan => $total) {
+            $dataPengeluaran[$bulan - 1] = $total;
+        }
+
+        // Label bulan untuk grafik
+        $bulanLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
         $saldoKeuangan = $totalPemasukan - $totalPengeluaran;
 
-        // Data Surat Menyurat (Hanya jika ada filter tahun_surat)
+        // Data Surat Menyurat
         $jumlahSurat = Surat::whereYear('tanggal_surat', $tahunSurat)->count();
         $dataSuratMasuk = Surat::where('tipe', 'masuk')->whereYear('tanggal_surat', $tahunSurat)->get();
         $dataSuratKeluar = Surat::where('tipe', 'keluar')->whereYear('tanggal_surat', $tahunSurat)->get();

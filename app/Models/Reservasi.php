@@ -16,6 +16,7 @@ class Reservasi extends Model
         'tanggal_kunjungan',
         'jam_kunjungan',
         'email',
+        'telepon',
         'status',
     ];
 

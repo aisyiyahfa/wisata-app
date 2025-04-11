@@ -15,21 +15,27 @@
                         <form action="{{ route('reservasi.store') }}" method="POST">
                             @csrf
                             <div class="row d-flex justify-content-between">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="nama_ketua"><i class="fas fa-user"></i> Nama Ketua</label>
                                         <input type="text" class="form-control" value="{{ Auth::user()->name }}"
                                             name="nama_ketua" required>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="email"><i class="fas fa-envelope"></i> Email</label>
                                         <input type="email" class="form-control" value="{{ Auth::user()->email }}"
                                             name="email" required>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="telepon"><i class="fas fa-phone"></i> Nomor Telepon / WhatsApp</label>
+                                        <input type="text" class="form-control" name="telepon" placeholder="08xxxxxxxxxx" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="jumlah_rombongan"><i class="fas fa-users"></i> Jumlah Rombongan</label>
                                         <input type="number" class="form-control" name="jumlah_rombongan" required>

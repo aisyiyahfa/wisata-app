@@ -42,14 +42,15 @@ class ReservasiController extends Controller
             'alamat_rombongan' => 'required|string',
             'tanggal_kunjungan' => 'required|date|after_or_equal:today',
             'jam_kunjungan' => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'telepon' => 'required|string|min:10' // ← validasi tambahan
         ]);
-
+    
         $cekReservasi = Reservasi::where('tanggal_kunjungan', $request->tanggal_kunjungan)
             ->where('jam_kunjungan', $request->jam_kunjungan)
             ->whereIn('status', ['pending', 'disetujui'])
             ->exists();
-
+    
         if ($cekReservasi) {
             return redirect()->back()->with('error', 'Jam kunjungan pada tanggal tersebut sudah dipesan.');
         }
@@ -61,9 +62,10 @@ class ReservasiController extends Controller
             'tanggal_kunjungan' => $request->tanggal_kunjungan,
             'jam_kunjungan' => $request->jam_kunjungan,
             'email' => $request->email,
+            'telepon' => $request->telepon, // ← simpan no telepon
             'user_id' => Auth::user()->id
         ]);
-
+    
         Alert::success('Success', 'Reservasi berhasil dibuat.');
         return redirect()->back()->with('success', 'Reservasi berhasil dibuat.');
     }
